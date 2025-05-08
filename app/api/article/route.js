@@ -1,0 +1,25 @@
+import { query } from "../../../app/lib/db";
+import { NextResponse } from "next/server";
+export async function POST(req){
+    const {request, category} = await req.json();
+    try{
+        let posts
+        if(request==='article'){
+            if (category){
+                console.log('ini category',category)
+                posts = await query(`SELECT * FROM artikel WHERE ArticleCategory = ?`,[category]);
+                console.log('ini posts:',posts)
+            }else{
+                posts = await query(`SELECT * FROM artikel`);
+            }
+        }else if(request==='trivia'){
+            posts = await query(`SELECT * FROM artikel WHERE Trivia = 1`);
+        }
+        return NextResponse.json({article:posts,})
+    }
+    catch(error)
+    {
+        console.log(error)
+        return NextResponse.json({error: error.message})
+    }
+}
