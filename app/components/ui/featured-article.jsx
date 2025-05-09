@@ -18,7 +18,6 @@ export default function FeaturedArticle({category}){
         then(res=>res.json()).
         then(res=>{
           setArticle(res.article)
-          console.log('in data',res.article)
         }
       ).
         finally(setLoader(false))

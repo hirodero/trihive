@@ -25,6 +25,7 @@ export default function OtherArticle({category}){
             <BentoGridItem
                 key={i}
                 title={item.ArticleTitle}
+                // creator={item}
                 description={item.ArticleDescription}
                 header={item.ArticleImage}    
                 navigation={item.id}

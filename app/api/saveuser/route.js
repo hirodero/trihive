@@ -22,10 +22,10 @@ export async function POST() {
           },
         }
       );
-    const data = await res.json();
+    // const data = await res.json();
 
     const { sub: userID, nickname: username, email: userEmail , picture: userPicture} = session.user;
-    const userRole = data[0].id;
+
     const db = await mysql.createConnection({
       host: 'localhost',
       user: 'root',
@@ -37,8 +37,8 @@ export async function POST() {
 
     if (rows.length === 0) {
       await db.execute(
-        'INSERT INTO msuser (UserID, Email, Username, UserPicture, UserScore, UserRole) VALUES (?, ?, ?, ?, 0, ?)',
-        [userID, userEmail, username, userPicture,userRole]
+        'INSERT INTO msuser (UserID, Email, Username, UserPicture, UserScore) VALUES (?, ?, ?, ?, 0)',
+        [userID, userEmail, username, userPicture]
       );
     }
 

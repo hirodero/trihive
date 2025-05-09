@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { query } from "../../../app/lib/db";
 export async function POST(req){
     const {ArticleID} = await req.json()
-    console.log('articleID',ArticleID)
     try{
         const response = await query('SELECT TriviaQuestion, TriviaOptionA, TriviaOptionB, TriviaOptionC, TriviaOptionD, TriviaAnswer from trivia WHERE ArticleID = ?',[ArticleID])
         return NextResponse.json({trivia:response});

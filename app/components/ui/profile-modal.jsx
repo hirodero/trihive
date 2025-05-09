@@ -11,32 +11,43 @@ export function ProfileModal() {
     const [imgHover,setImg] = useState(false)
     const [modal, activateModal] = useState(false)    
     const [isLoading, setLoading] = useState(true);
-    const [profile, setProfile] = useState(null)
+    const [profile, setProfile] = useState([])
   useEffect(()=>{
-    try{
-      fetch('/api/auth/me').
-      then(res=>res.json())
-      .then(res=>setUser(res))
-    }catch(error){
-      setUser([])
+    async function getSession(){
+        const response = await fetch('/api/auth/me')
+        if(response!=='No Content'){
+            const data = await response.json()
+            setUser(data)
+        }
     }
+    getSession()
   },[])
-    useEffect(()=>{
-        if(user){
-            fetch('/api/user',{
+
+      useEffect(()=>{
+        async function getProfile(){
+            const response = await fetch('/api/user',{
                 method:'POST',
                 headers:{
-                    'Content-type':'application/json'
+                    'Content-type' : 'application/json'
                 },
                 body:JSON.stringify({
-                    UserID:user?.sub
+                    Request:'Score'
                 })
-            }).
-            then(res=>res.json()).
-            then(res=>setProfile(res.posts)).
-            finally(()=>setLoading(false))
+            })
+            if (response.statusText!=='No Content'){
+                const data = await response.json();
+                setProfile(()=>{
+                    const clone = data.posts.filter(items=>{ 
+                        return items.UserID===user?.sub
+                    })
+                return clone
+                })
+                setLoading(false)
+            }
         }
+        getProfile()
     },[user])
+    
     const toggleModal = () => {
         setHover(false)
         activateModal(prev=>{
@@ -58,13 +69,11 @@ export function ProfileModal() {
               .then(res => setProfile(res.posts))
               .finally(() => setLoading(false));
         }
-        console.log('tes')
-
       };
       const content = () => (
         <> 
             <div className="flex flex-col mb-2">
-                <img src={profile[0].UserPicture} referrerPolicy="no-referrer" className="rounded-full md:size-44 border-8 border-green-300" alt="Profile" />
+                <img src={profile[0]?.UserPicture} referrerPolicy="no-referrer" className="rounded-full md:size-44 border-8 border-green-300" alt="Profile" />
             </div>
             <div className="flex justify-center">
                 <span className="font-semibold text-2xl text-white mt-2">{profile[0]?.Username}</span>
@@ -79,7 +88,7 @@ export function ProfileModal() {
                 <div className="flex w-full bg-green-900 text-white font-semibold font-sans self-start mt-4 rounded-xl border-4 p-2">
                     <GrScorecard className="size-9"/>
                     <span className="mt-1 ml-4 text-xl">
-                        {profile[0]?.UserScore ? `${profile[0]?.UserScore} pts` : <Loader2 className="animate-spin" />}
+                        { `${profile[0]?.UserScore} pts`}
                     </span>
                 </div>
                 
@@ -114,7 +123,7 @@ export function ProfileModal() {
                         animate={imgHover?{boxShadow:'0 0 0 7px #ceff00'}:{boxShadow:'0 0 0 3px #ceff00'}}
                         onMouseEnter={()=>setImg(true)}
                         onMouseLeave={()=>setImg(false)}
-                        src={profile?profile[0].UserPicture:'/assets/star.png'} 
+                        src={profile?profile[0]?.UserPicture:'/assets/defaultProfile.png'} 
                         className="rounded-full border-8 object-contain bg-white w-full h-full border-green-400 hover:border-teal-800 hover:border-b-teal-400 hover:border-t-teal-400 transition border-b-teal-500 border-t-teal-500 duration-200" alt='Loading..' />
                     </motion.div>
                 </motion.div> 

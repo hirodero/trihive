@@ -3,12 +3,10 @@ import {query} from '../../../app/lib/db'
 export async function POST(req) {
     try {
       const { judulArtikel, kategoriArtikel, isiArtikel, deskripsiArtikel, gambarArtikel, Trivia } = await req.json();
-      console.log('ini isi up',judulArtikel, kategoriArtikel, isiArtikel, deskripsiArtikel, gambarArtikel, Trivia)
       const result = await query(
         `INSERT INTO artikel (ArticleTitle, ArticleCategory, ArticleContent, ArticleDescription, ArticleImage, Trivia) VALUES (?, ?, ?, ?, ?, ?)`,
         [judulArtikel, kategoriArtikel, isiArtikel, deskripsiArtikel, gambarArtikel, Trivia ]
       );
-      console.log("INSERT RESULT:", result);
       
       const insertId = result.insertId;
       const articleId = "ART" + insertId.toString().padStart(3, "0");

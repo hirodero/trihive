@@ -10,7 +10,7 @@ export default function Stream(){
     return(
         <>
             {
-                category?(
+                category==='Sosiologi'||category==='Biologi'|| category==='Geografi'?(
                 <div className="pt-28 flex flex-col lg:space-y-30 md:space-y-80 space-y-15 bg-[url('/assets/space.png')] bg-cover bg-no-repeat bg-center bg-fixed">
                     <div className="flex flex-row md:pr-55 md:py-30 justify-center">
                     <div className="md:pr-10 flex max-h-full items-center">
@@ -52,21 +52,15 @@ export default function Stream(){
                 </div>
     
                 ):(
+
                 <div className="flex flex-col text-white items-center justify-center h-screen lg:space-y-30 md:space-y-80 space-y-15 bg-[url('/assets/space.png')] bg-cover bg-no-repeat bg-center bg-fixed">
-                    <div className="flex flex-col justify-center items-center rounded-2xl font-bold p-4 bg-lime-600">
-                        <h1>
-                            Category Not Found
-                        </h1>
-                        <h1>
-                            404
-                        </h1>
+                    <div className="flex flex-col justify-center items-center rounded-2xl font-bold p-4 bg-lime-900">
+                        <img src="https://cdn.fstoppers.com/styles/large/s3/wp-content/uploads/2012/08/toofar.jpg" alt="" />
+                        <h1>Please go back to the right stream</h1>
                     </div>
                 </div>
                 )
-            }
-                
-
-            
+            }  
         </>
     )
 }

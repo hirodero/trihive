@@ -14,10 +14,6 @@ export default function Scoreboard(){
             if (response.statusText!=='No Content'){
                 const data = await response.json()
                 setUser(data);
-                console.log('test session',data)
-            }
-            else{
-                console.log('no session')
             }
         }
         checkSession()
@@ -36,7 +32,6 @@ export default function Scoreboard(){
             if (response.ok){
                 const data = await response.json()
                 setPlayers(data.posts)
-                console.log('ini data player',data.posts)
                 setPersonal(prev=>{
                     const clone = data.posts.filter(datas=>{
                         return datas.UserID===user?.sub

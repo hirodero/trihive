@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
     const { Request, UserID} = await req.json();
     try {
-        console.log('ini trus si id:  ',UserID);
         let posts;
         if (!Request && !UserID) {
             posts = await query('SELECT * FROM msuser');

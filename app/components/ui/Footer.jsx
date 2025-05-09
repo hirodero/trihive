@@ -29,9 +29,9 @@ export default function Footer(){
                     <p className="text-white font-mono font-bold text-2xl">Ready for your</p>
                     <p className="text-lime-300 font-mono font-bold text-6xl">Next game?</p>
             
-                    <div className="flex flex-row gap-2 justify-end mr-10 space-x-5">
+                    <div className="flex flex-row gap-2 justify-end mr-20 space-x-5">
                         {
-                            user.data?.sub&&<Feedback/>
+                            user.data.sub&&<Feedback/>
                         }
                         <form action="/">
                             <button className="" type="submit">

@@ -37,6 +37,7 @@ export default function Detail(){
             })
         }
     },[id])
+    
     useEffect(() => {
         if (!body.current || !title.current || !img.current || !button.current || !content.current || !category.current) {
           return;
@@ -129,7 +130,7 @@ export default function Detail(){
     return(
         <div className="flex flex-col text-white min-h-screen p-10 bg-[url('/assets/space.png')] items-center">
         {
-            id?(
+            id && data?(
                 <>
                     <div className="w-full h-32 bg-none"/>
                     <div 
@@ -139,29 +140,29 @@ export default function Detail(){
                         <div className="flex w-full pt-10 justify-center p-10">
                             <h1 
                             ref={title}
-                            className="text-4xl font-bold break-all break-words">{data.ArticleTitle}</h1>
+                            className="text-4xl font-bold break-all break-words">{data?.ArticleTitle}</h1>
                         </div>
                         <div
                         ref={img}
                         className="flex w-full min-h-[400] h-[400] max-h-[400] bg-gradient-to-tr from-lime-200 to-green-800 rounded-xl justify-center">
                             <img 
-                            src={data.ArticleImage}
+                            src={data?.ArticleImage}
                             alt="image"
                             className="h-full bg-gradient-to-tr object-contain rounded-2xl" />
                         </div>
                         
                         <h1
                         ref={category}
-                         className="font-bold text-2xl">April 2025 - {data.ArticleCategory}</h1>
+                         className="font-bold text-2xl">April 2025 - {data?.ArticleCategory}</h1>
                         <div
                         ref={content}
                          className="pt-2">
-                            <span className="text-2xl font-sans break-words">{data.ArticleContent}</span>
+                            <span className="text-2xl font-sans break-words">{data?.ArticleContent}</span>
                         </div>
                     </div>
                         <div 
                         ref={button}
-                        onClick={()=>router.push(`/trivia/games?id=${data.ArticleID}`)}
+                        onClick={()=>router.push(`/trivia/games?id=${data?.ArticleID}`)}
                         onMouseEnter={handleEnter}
                         onMouseLeave={handleLeave}
                         className="flex justify-center rounded-2xl cursor-pointer w-full h-20">
@@ -173,14 +174,10 @@ export default function Detail(){
                     </div>
                 </>
             ):(
-                <div className="flex flex-col text-white items-center justify-center h-screen lg:space-y-30 md:space-y-80 space-y-15">
+                <div className="flex absolute inset-0 flex-col text-white items-center justify-center h-screen lg:space-y-30 md:space-y-80 space-y-15 bg-[url('/assets/space.png')] bg-cover bg-no-repeat bg-center bg-fixed">
                     <div className="flex flex-col justify-center items-center rounded-2xl font-bold p-4 bg-lime-900">
-                        <h1>
-                            Article Not Found
-                        </h1>
-                        <h1>
-                            404
-                        </h1>
+                        <img src="https://cdn.fstoppers.com/styles/large/s3/wp-content/uploads/2012/08/toofar.jpg" alt="" />
+                        <h1>Please go back to the right article</h1>
                     </div>
                 </div>
             )

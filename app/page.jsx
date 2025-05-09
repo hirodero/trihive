@@ -23,6 +23,7 @@ export default function Home() {
   const dice = useRef()
   const dice2 =useRef()
   const router = useRouter();
+  const [active,setActive] = useState(0)
   const [user,setUser] = useState([])
   const [faq,setFaQ] = useState(
     Array(3).fill(0).map((items,index)=>{return ({key:index,question:'',answer:'',status:false})})
@@ -30,7 +31,7 @@ export default function Home() {
   const subtext = `TriHive menyediakan berbagai macam kategori article dan permainan trivia yang dapat membantu kamu meningkatkan kecerdasan dan ketelitian!`
   const gameNav=()=>{
     user?.sid?
-      router.push('/trivia/games?id=ART001'):
+      router.push('/trivia'):
       window.location.href = '/api/auth/login'
   }
 
@@ -242,11 +243,15 @@ export default function Home() {
                       faq.map((data,index)=>{
                         return(
                         <div
-                        onClick={()=>setFaQ(prev=>{
+                        onClick={()=>{
+                          setFaQ(prev=>{
                           const clone=[...prev]
-                          clone[index] = { ...clone[index], status: !clone[index].status };
+                          clone[index] = { ...clone[index], status:!clone[index].status};
                           return clone
-                        })} 
+                        })
+                        // setActive(index)
+                      }}
+
                          key={data.key}
                          className="group"
                          >   

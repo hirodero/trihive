@@ -19,7 +19,6 @@ export default function Top3(){
         then(res=>setUser(res.posts)).
         finally(setLoader(false))
       },[])
-      console.log('ini top3',user)
     return(
         <>
         {

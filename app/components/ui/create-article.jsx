@@ -4,19 +4,19 @@ import { Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
 import { FaPencilAlt } from "react-icons/fa";
 import { supabase } from "../../lib/supabase-client";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion"; 
 export default function CreateArticle(){
-  const totalArray = 5;
+  const totalArray = 2;
   const inputFileRef = useRef();
   const [user,setUser] = useState({userData:[],userLoading:true, userLogged:false})
-  const [trivias,setTrivias] = useState({status:false,buttonAnm:false})
+  const [trivias,setTrivias] = useState({status:false, buttonAnm:false})
   const [displayModal, setModal] = useState(false);
-  const [artikel,setArtikel] = useState({judul:'', kategori:'None', isi:'', deskripsi:'', gambar:'', URLGambar:'',isLoading:true})
+  const [artikel,setArtikel] = useState({judul:'', kategori:'None', isi:'', deskripsi:'', gambar:'', URLGambar:'',isLoading:false})
   const [triviadata,setData] = useState(
     Array(totalArray).fill(null).map(()=>(
       {
         question:'',
-        options:[],
+        options:Array(4).fill(''),
         answer:'A'
        }
     )))
@@ -77,26 +77,29 @@ export default function CreateArticle(){
 
 
   const submitArticle = async () => {
-    console.log('trivia status',trivias.status)
     if (artikel.judul === '' || artikel.kategori === 'None' || artikel.isi === '' || artikel.deskripsi === '') {
       toast.error('Ada field artikel yang masih kosong!');
       return;
     }
-    if(trivias.status){
-      console.log('status aktif bos')
-      if (triviadata.every((items, index)=>{
+    if(trivias?.status ===true){
+      if (triviadata.every((items,idx)=>{
         const questionValid = items.question && items.question.trim() !== ''
-        const optionsValid = items.options.every((opt,idx)=>{
-          const optionsIndexValid = opt && opt.trim() !== ''
+        const optionsValid = items.options.every((opt,index)=>{
+          const optionsIndexValid = opt && opt.trim() !== ''  
           return optionsIndexValid
         })
         const answerValid = items.answer && items.answer.trim() !== ''
-        return questionValid && optionsValid && answerValid
+        return (questionValid && optionsValid && answerValid)
       }) === false){
         toast.error('Ada field trivia yang masih kosong!');
         return;
       }
     }
+    setArtikel((prev)=>{
+      const clone = {...prev}
+      clone.isLoading=true
+      return clone
+    })
     const responseGambar = await uploadGambar(artikel.gambar);
     if (!responseGambar) return;
     try {
@@ -116,14 +119,13 @@ export default function CreateArticle(){
           isiArtikel:artikel.isi,
           deskripsiArtikel:artikel.deskripsi,
           gambarArtikel: responseGambar,
-          Trivia: trivias.status
+          Trivia: trivias?.status
         }),
       });
-      console.log('ini response : ',response)
       if (response.ok) {
         toast.success('Hore! artikel kamu berhasil diupload!!');
         const id = await response.json()
-        if (trivias.status) {          
+        if (trivias?.status) {          
           const triviaResponse = await fetch('/api/submitTrivia', {
             method: 'POST',
             headers: {
@@ -162,7 +164,6 @@ export default function CreateArticle(){
         toast.error('Kesalahan saat mengirim, silahkan dicoba kembali');
       }
     } catch (e) {
-      console.log(e);
       toast.error('Kesalahan saat mengirim, silahkan dicoba kembali');
     }
   }; 
@@ -184,11 +185,20 @@ export default function CreateArticle(){
               duration:0.01
             }}
              id="create-article-button" className='flex cursor-pointer pointer-events-auto  py-4 px-2 transition font-bold rounded-full' 
-             onClick={()=>setModal((prev)=>{
-              const displayModal = !prev
+             onClick={()=>{
+               if(!user.userLogged){
+                return window.location.href = '/api/auth/login'
+              }
+              else{
+                setModal((prev)=>{
+             const displayModal = !prev
                 document.body.style.overflow= displayModal?'hidden':'auto'
               return displayModal
-              })}>
+              })
+              }
+              
+             }
+             }>
 
               {!user.userLoading?(
                 user.userLogged?(
@@ -197,7 +207,7 @@ export default function CreateArticle(){
                     Create Article
                   </motion.span>
                 ):(
-                  <a href="/api/auth/login" className="text-xl pl-2 my-1 ml-1">Login Untuk Create Article</a>
+                  <a className="text-xl pl-2 my-1 ml-1">Login Untuk Create Article</a>
                 )
               ):(
                 <span className="p-2 gap-2 flex flex-row">
@@ -239,7 +249,7 @@ export default function CreateArticle(){
                     <button className="text-white -my-4 z-20 bg-emerald-500 px-8 py-4 -ml-4 border-2 rounded-lg pointer-events-none ring-4 outline-2 outline-double ring-emerald-600">TRIHIVE</button>
                   </div>
                   
-                  <div className="mt-10 ml-10">
+                  <div className="my-10 ml-10">
                     <button 
                     onClick={()=>inputFileRef.current.click()}
                     className="bg-gray-500 cursor-pointer hover:text-gray-600 hover:bg-white hover:border-gray-900 font-bold border-2 border-neutral-800 transition duration-200 text-white -m-2 px-5 py-2 rounded-xl">
@@ -302,7 +312,6 @@ export default function CreateArticle(){
                         onChange={(e)=>setArtikel((prev)=>{
                           const clone = {...prev}
                           clone[items.toLowerCase()]=e.target.value
-                          console.log('ini clone ya',artikel)
                           return clone
                         })}
                         className={`size-full resize-none text-black border-2 border-gray-300 rounded-xl p-1 }`} 
@@ -315,7 +324,7 @@ export default function CreateArticle(){
                         <div className="">
                             <div className="bg-emerald-400 gap-4 justify-center items-center flex flex-row rounded-xl text-white px-4 py-2  ">
                               <h1 className="text-xl">
-                                {trivias.status?'Bangun triviamu!':'Buat trivia?'}
+                                {trivias?.status?'Bangun triviamu!':'Buat trivia?'}
                               </h1>
                               <motion.div 
                               onMouseEnter={()=>setTrivias((prev)=>{
@@ -329,17 +338,15 @@ export default function CreateArticle(){
                                 return clone
                               })}
                               onClick={()=>setTrivias((prev)=>{
-                                prev={
-                                  status:!prev.status,
-                                  buttonAnm:!prev.buttonAnm
-                                }
-                                return prev
+                                let clone = {...prev}
+                                  clone={status: !prev.status}
+                                return clone
                               })}
-                              animate={trivias.buttonAnm?{boxShadow:'0 0 0 3px #228b22',transition:{duration:0.3}}:{...trivias.status?{}:{}}}
+                              animate={trivias?.buttonAnm?{boxShadow:'0 0 0 3px #228b22',transition:{duration:0.3}}:{...trivias?.status?{}:{}}}
                               className="rounded-full cursor-pointer h-8 w-8 bg-white"> 
                                 <motion.button
                                 initial={{backgroundColor:'#00ff00',scale:0}}
-                                animate={trivias.buttonAnm?{scale:0.2}:{...trivias.status?{scale:1,backgroundColor:'#32cd32',boxShadow:'0 0 0 2px #2a8000'}:{}}}
+                                animate={trivias?.buttonAnm?{scale:0.2}:{...trivias?.status?{scale:1,backgroundColor:'#32cd32',boxShadow:'0 0 0 2px #2a8000'}:{}}}
                                 className="h-full cursor-pointer w-full rounded-full">
                                 </motion.button>
                               </motion.div>
@@ -348,7 +355,7 @@ export default function CreateArticle(){
                         </div>
                         <AnimatePresence>
                         {
-                          trivias.status&&(
+                          trivias?.status&&(
                             Array(totalArray).fill(null).map((item,containerIndex)=>(
                             <motion.div
                               key={containerIndex}
@@ -440,7 +447,13 @@ export default function CreateArticle(){
 
 
                         <div className="relative flex bg-green-400 mt-8 rounded-b-xl">
-                          {artikel.isLoading ?(
+                        <button onClick={submitArticle} 
+                            className="ml-auto text-white cursor-pointer hover:bg-white hover:border-green-950 hover:text-green-950 transition duration-200 -mb-4 bg-green-700 px-5 py-2 -mr-4 border-2 rounded-xl"> 
+                              {!artikel.isLoading ?
+                              <span>Submit</span>:
+                              <span className="flex"><Loader2 className="animate-spin"/>Mengirim..</span>}
+                            </button>    
+                          {/* {artikel.isLoading ?(
                             <button onClick={submitArticle} 
                             className="ml-auto text-white cursor-pointer hover:bg-white hover:border-green-950 hover:text-green-950 transition duration-200 -mb-4 bg-green-700 px-5 py-2 -mr-4 border-2 rounded-xl"> 
                               <span>Submit</span>
@@ -449,11 +462,10 @@ export default function CreateArticle(){
                           (
                             <button onClick={submitArticle} 
                             className="ml-auto text-white -mb-4 bg-green-700 px-5 py-2 -mr-4 border-2 rounded-xl">
-                              
                               <span className="flex"><Loader2 className="animate-spin"/>Mengirim..</span>
                             </button>
                           )
-                        }
+                        } */}
                         </div>
                       </div>
                     </motion.div>

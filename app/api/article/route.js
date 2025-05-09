@@ -6,9 +6,8 @@ export async function POST(req){
         let posts
         if(request==='article'){
             if (category){
-                console.log('ini category',category)
                 posts = await query(`SELECT * FROM artikel WHERE ArticleCategory = ?`,[category]);
-                console.log('ini posts:',posts)
+              
             }else{
                 posts = await query(`SELECT * FROM artikel`);
             }

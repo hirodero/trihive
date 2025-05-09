@@ -73,15 +73,12 @@ export function Feedback() {
             <div className="flex flex-row justify-center w-full">
                 {[1, 2, 3, 4, 5].map((star) => (
                     <div key={star} 
-                    onClick={() =>  
-                        // setRating(rating === star ? 0 : star)
-                        {
-                            setFeedback((prev)=>{
-                                const clone ={...prev}
-                                clone.rating = clone.rating === star ? 0 : star
-                                return clone
-                            })
-                        }
+                    onClick={() => {
+                        setFeedback((prev)=>{
+                            const clone ={...prev}
+                            clone.rating = clone.rating === star ? 0 : star
+                            return clone
+                        })}
                     }
                      className="size-24 gap-2">
                         <img   
