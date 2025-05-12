@@ -43,7 +43,7 @@ export default function Home() {
       setUser(data);
     } catch (err) {
       console.error("Failed to check session", err);
-      toast.error("Gagal memuat sesi pengguna");
+      toast.error("Login dulu dong biar bisa explore");
     }
   }
 
