@@ -3,15 +3,15 @@ import { motion } from "framer-motion";
 import { useState, useEffect, useRef} from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
-import  Loaders  from '../../components/ui/loadingmodal'
+import  Loaders  from '../../../components/ui/loadingmodal'
 import { Loader2 } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import gsap from "gsap";
 import toast from "react-hot-toast";
 export default function Trivia(){
     const req = useSearchParams();
     const [user, setUser] = useState([])
-    const id = req.get('id')
+    const { id } = useParams()
     const pic = useRef()
     const [profile,setProfile] = useState([])
     const router = useRouter()
@@ -250,7 +250,7 @@ export default function Trivia(){
         [{x:140,y:10},{x:-70,y:-10},{},{x:-30,y:10}],
         [{x:80,y:-10},{x:-140,y:10},{x:30,y:10},{}]
     ]
-    const options = ids.map((id,i)=>{
+    const options = ids?.map((id,i)=>{
         const currentHoverIndex = ids.indexOf(hoverOption)
         const otherHovered = hoverOption && hoverOption !== id
         const impactedFromOtherHover = otherHovered?hoverImpactBase:{}
@@ -437,7 +437,7 @@ export default function Trivia(){
                         </div>
 
                         <div id="answers" className="grid grid-cols-2 rounded-xl m-4 row-span-2 min-h-[220] max-h-[220] ">
-                            {options.map((options)=>{
+                            {options?.map((options)=>{
                                 return(
                                     <motion.div 
                                     key={options.key} 

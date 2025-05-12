@@ -1,12 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
-import FeaturedArticle from "../../components/ui/featured-article";
-import OtherArticle from "../../components/ui/other-article";
-import Pin from "../../components/ui/pin-navigation";
+import { useParams } from "next/navigation";
+import FeaturedArticle from "../../../components/ui/featured-article";
+import OtherArticle from "../../../components/ui/other-article";
+import Pin from "../../../components/ui/pin-navigation";
 export default function Stream(){
-    const param = useSearchParams();
-    const category = param.get('category')
+    const { category }= useParams()
     return(
         <>
             {

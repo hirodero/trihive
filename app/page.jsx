@@ -23,10 +23,9 @@ export default function Home() {
   const dice = useRef()
   const dice2 =useRef()
   const router = useRouter();
-  const [active,setActive] = useState(0)
   const [user,setUser] = useState([])
   const [faq,setFaQ] = useState(
-    Array(3).fill(0).map((items,index)=>{return ({key:index,question:'',answer:'',status:false})})
+    Array(1).fill(0).map((items,index)=>{return ({key:index,question:'',answer:'',status:false})})
   )
   const subtext = `TriHive menyediakan berbagai macam kategori article dan permainan trivia yang dapat membantu kamu meningkatkan kecerdasan dan ketelitian!`
   const gameNav=()=>{
@@ -160,8 +159,8 @@ export default function Home() {
                 <div className="flex flex-col -mt-20 mx-24">
                   <div ref={introHeading}>
                     {
-                      [0,1,2].map((item)=>(
-                          <TypewriterEffectSmooth key={item} words={word[item]}/>
+                      word?.map((item,index)=>(
+                          <TypewriterEffectSmooth key={index} words={item}/>
                       ))
                     }
                   </div>
@@ -240,7 +239,7 @@ export default function Home() {
             
                 <div className="flex flex-col space-y-3 px-10 py-10 font-bold font-mono bg-emerald-700 text-white ">
                     {
-                      faq.map((data,index)=>{
+                      faq?.map((data,index)=>{
                         return(
                         <div
                         onClick={()=>{

@@ -1,5 +1,5 @@
 'use client'
-import { useRouter, useSearchParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -14,10 +14,9 @@ export default function Detail(){
     const button = useRef()
     const [data,setData] = useState([])
     const router = useRouter()
-    const params= useSearchParams()
     const [loading, setLoading] = useState(false)
 
-    const id = params.get('id')
+    const {id}= useParams()
     useEffect(()=>{
         if (id)
         {

@@ -48,7 +48,7 @@ export default function Scoreboard(){
         <>
             <div className="p-8 space-y-7 w-full max-h-90 overflow-auto scrollbar-hide bg-green-900 rounded-t-2xl">
                 {
-                    !loading?(players.map((items,index)=>{
+                    !loading?(players?.map((items,index)=>{
                         return(
                             <div key={index} className="flex items-center space-x-6 w-full py-1 bg-green-700 border-4 border-lime-400 rounded-full">
                                 <span className="text-white flex text-xl pl-3 font-bold">

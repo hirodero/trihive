@@ -37,7 +37,7 @@ export default function TriviaDisplay(){
                         </h2>
                         <div className="flex items-center rounded-xl">
                             <BentoGrid className="max-w-screen min-w-full mx-auto p-10 gap-y-20">
-                            {article[category].map((item, i) => (
+                            {article[category]?.map((item, i) => (
                                     <BentoGridItem
                                     key={i}
                                     title={item.ArticleTitle}

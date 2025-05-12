@@ -27,7 +27,7 @@ export default function Pin(){
     <div className=" mt-20 pt-32 pb-40  flex flex-1 flex-col justify-center items-center ">
         <div className="absolute flex flex-row justify-center items-center gap-4">
             {
-                attributes.map((item, index)=>(
+                attributes?.map((item, index)=>(
                     <PinContainer 
                     key={index}
                     title={item.title}
