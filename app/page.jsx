@@ -35,41 +35,47 @@ export default function Home() {
   }
 
   useEffect(() => {
-    async function checkSession(){
+  async function checkSession() {
+    try {
       const res = await fetch('/api/auth/me');
-        if (res.statusText !== 'No Content') {
-          const data = await res.json();
-          setUser(data);
-        } 
-    };
-    async function getFaQ(){
-      const res = await fetch('/api/faq');
-        if (res.statusText !== 'No Content') {
-          const data = await res.json();
-          setFaQ(prev=>{
-            const clone = [...prev]
-            data?.faq.map((items,index)=>{
-              clone[index].key=index
-              clone[index].question=items.Question
-              clone[index].answer=items.Answer
-              clone[index].status=false
-              return clone;
-            })
-            return clone
-          });
-        } 
-    };
-    checkSession();
-    getFaQ();
-  }, []);
-  
-  useEffect(() => {
-    if (user) {
-      fetch('/api/saveuser', {
-        method: 'POST',
-      });
+      if (!res.ok) return; 
+      const data = await res.json();
+      setUser(data);
+    } catch (err) {
+      console.error("Failed to check session", err);
+      toast.error("Gagal memuat sesi pengguna");
     }
-  }, [user]);
+  }
+
+  async function getFaQ() {
+    try {
+      const res = await fetch('/api/faq');
+      if (!res.ok) return;
+      const data = await res.json();
+      if (Array.isArray(data?.faq)) {
+        setFaQ(prev => {
+          const clone = [...prev];
+          data.faq.forEach((item, index) => {
+            clone[index] = {
+              key: index,
+              question: item.Question,
+              answer: item.Answer,
+              status: false,
+            };
+          });
+          return clone;
+        });
+      }
+    } catch (err) {
+      console.error("Failed to fetch FAQ", err);
+      toast.error("FAQ tidak dapat dimuat");
+    }
+  }
+
+  checkSession();
+  getFaQ();
+}, []);
+
   
   useEffect(() => {
     setTimeout(() => { 
