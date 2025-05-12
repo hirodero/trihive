@@ -55,7 +55,7 @@ export default function Trivia(){
                 setUser(data)
             }
             else{
-                 window.location.href = '/api/auth/login';
+                 window.location.href = '/api/auth/login?returnTo=/post-login';
             }
         }
         getSession()

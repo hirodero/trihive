@@ -187,7 +187,7 @@ export default function CreateArticle(){
              id="create-article-button" className='flex cursor-pointer pointer-events-auto  py-4 px-2 transition font-bold rounded-full' 
              onClick={()=>{
                if(!user.userLogged){
-                return window.location.href = '/api/auth/login'
+                return window.location.href = '/api/auth/login?returnTo=/post-login'
               }
               else{
                 setModal((prev)=>{

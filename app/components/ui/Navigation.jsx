@@ -86,7 +86,7 @@ export default function Navigation(){
                   </div>)):(
                     <div className="flex z-50 justify-end mt-5 pr-10">
                       <button 
-                      onClick={()=>window.location.href = '/api/auth/login'}
+                      onClick={()=>window.location.href = '/api/auth/login?returnTo=/post-login'}
                       className="py-2 px-4 rounded-xl cursor-pointer bg-green-600 hover:bg-green-400 text-white font-semibold mr-4 " type="submit">
                         Login
                       </button>

@@ -23,7 +23,7 @@ export default function Postlogin(){
         }
     },[])
     return(
-      <div id="main-wrapper" className="flex flex-col bg-[url('/assets/space.png')] bg-cover bg-no-repeat bg-center bg-fixed">
+      <div id="main-wrapper" className="absolute inset-0 flex flex-col bg-[url('/assets/space.png')] bg-cover bg-no-repeat bg-center bg-fixed">
         <div className=" flex-col flex">
           <h2 className="transition duration-200 mt-10 text-white text-center z-10 max-w-7x py-4 px-28 rounded-full border-t-4 border-x-4 border-green-950 ring-8 ring-lime-700 text-xl md:text-5xl font-bold dark:text-neutral-200 font-sans">
             Redirecting...

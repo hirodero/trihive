@@ -31,7 +31,7 @@ export default function Home() {
   const gameNav=()=>{
     user?.sid?
       router.push('/trivia'):
-      window.location.href = '/api/auth/login'
+      window.location.href = '/api/auth/login?returnTo=/post-login'
   }
 
   useEffect(() => {
