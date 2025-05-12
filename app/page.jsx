@@ -38,7 +38,7 @@ export default function Home() {
   async function checkSession() {
     try {
       const res = await fetch('/api/auth/me');
-      if (res.ok || res.statusText==='No Content') return; 
+      if (!res.ok || res.statusText==='No Content') return; 
       const data = await res.json();
       setUser(data);
     } catch (err) {
