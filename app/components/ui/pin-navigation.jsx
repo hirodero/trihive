@@ -9,17 +9,17 @@ export default function Pin(){
         {
             title:'Sosiologi',
             image:"/assets/sosiologi.png",
-            href: "/article/stream?category=Sosiologi",
+            href: "/article/stream/Sosiologi",
             text: `${textbase} sosiologi.`
         },{
             title:'Biologi',
             image: '/assets/biologi.png',
-            href: "/article/stream?category=Biologi",
+            href: "/article/stream/Biologi",
             text: `${textbase} biologi.`
         },{
             title:'Geografi',
             image:"/assets/geografi.png",
-            href:"/article/stream?category=Geografi",
+            href:"/article/stream/Geografi",
             text: `${textbase} Geografi.`
         }
     ]

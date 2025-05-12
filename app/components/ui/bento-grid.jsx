@@ -28,9 +28,9 @@ export const BentoGridItem = ({
   const router= useRouter()
   const navigate=(navigation,navigationType)=>{
     if(navigationType==='article'){
-      router.push(`/article/detail?id=${navigation}`)
+      router.push(`/article/detail/${navigation}`)
     }else if(navigationType==='trivia'){
-      router.push(`/trivia/games?id=${navigation}`)
+      router.push(`/trivia/games/${navigation}`)
     }
   }
   return (

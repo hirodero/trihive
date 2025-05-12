@@ -9,7 +9,6 @@ import { useParams, useRouter } from "next/navigation";
 import gsap from "gsap";
 import toast from "react-hot-toast";
 export default function Trivia(){
-    const req = useSearchParams();
     const [user, setUser] = useState([])
     const { id } = useParams()
     const pic = useRef()
