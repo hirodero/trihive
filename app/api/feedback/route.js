@@ -6,8 +6,8 @@ export async function POST(req) {
 
   
       await query(
-        'INSERT INTO feedback (UserID, Username, Email, Rate, FeedbackDescription) VALUES (ART010, ?, ?, ?, ?)',
-        [userID, Username, Email, rating, feedback] // 
+        'INSERT INTO feedback (UserID, Username, Email, Rate, FeedbackDescription) VALUES (@param0, @param1, @param2, @param3, @param4)',
+        [userID, Username, Email, rating, feedback] 
       );
   
       return new Response(JSON.stringify({ message: 'Feedback saved successfully' }), {

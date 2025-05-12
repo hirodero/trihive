@@ -9,11 +9,12 @@ export async function POST(req) {
             posts = await query('SELECT * FROM msuser');
         } else if (UserID) {
             console.log('this is userID',UserID)
-            posts = await query('SELECT * FROM msuser WHERE UserID = ?', [UserID]);
+            posts = await query('SELECT * FROM msuser WHERE UserID = @param0', [UserID]);
         } else if (Request === 'Score') {
             posts = await query('SELECT * FROM msuser ORDER BY UserScore DESC');
         } else if (Request === 'Top3'){
-            posts = await query('SELECT * FROM msuser ORDER BY UserScore DESC LIMIT 3');   
+            posts = await query('SELECT TOP 3 * FROM msuser ORDER BY UserScore DESC');
+
         }
          else {
             posts = [];
