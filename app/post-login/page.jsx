@@ -14,7 +14,7 @@ export default function Postlogin(){
                 })
                 if (!response.ok) return;
             }
-            saveUser
+            saveUser()
             router.push('/')
             
         }catch(e){
