@@ -48,7 +48,7 @@ export default function Home() {
           const data = await res.json();
           setFaQ(prev=>{
             const clone = [...prev]
-            data.faq.map((items,index)=>{
+            data?.faq.map((items,index)=>{
               clone[index].key=index
               clone[index].question=items.Question
               clone[index].answer=items.Answer
