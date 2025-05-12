@@ -22,6 +22,7 @@ export async function POST() {
         },
       }
     );
+    console.log('ini res',res)
 
     const { sub: userID, nickname: username, email: userEmail, picture: userPicture } = session.user;
 
