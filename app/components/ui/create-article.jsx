@@ -6,7 +6,7 @@ import { FaPencilAlt } from "react-icons/fa";
 import { supabase } from "../../lib/supabase-client";
 import { AnimatePresence, motion } from "framer-motion"; 
 export default function CreateArticle(){
-  const totalArray = 2;
+  const totalArray = 5;
   const inputFileRef = useRef();
   const [user,setUser] = useState({userData:[],userLoading:true, userLogged:false})
   const [trivias,setTrivias] = useState({status:false, buttonAnm:false})
