@@ -1,20 +1,27 @@
 import { NextResponse } from "next/server";
 import { query } from "../../../app/lib/db";
 
+function generateTriviaID(index) {
+  const timestamp = Date.now();
+  return `TRI${timestamp}${index.toString().padStart(2, "0")}`;
+}
+
 export async function POST(req) {
   const { triviadata, externalData } = await req.json();
 
   try {
     await Promise.all(
-      triviadata.map(async (items) => {
-        const insertResult = await query(
+      triviadata.map(async (items, index) => {
+        const triviaID = generateTriviaID(index);
+
+        await query(
           `INSERT INTO trivia (
-            ArticleID, UserID, TriviaQuestion, TriviaOptionA, TriviaOptionB,
+            TriviaID, ArticleID, UserID, TriviaQuestion, TriviaOptionA, TriviaOptionB,
             TriviaOptionC, TriviaOptionD, TriviaAnswer
           )
-          OUTPUT INSERTED.id
-          VALUES (@param0, @param1, @param2, @param3, @param4, @param5, @param6, @param7)`,
+          VALUES (@param0, @param1, @param2, @param3, @param4, @param5, @param6, @param7, @param8)`,
           [
+            triviaID,
             externalData.id,
             externalData.UserID,
             items.question,
@@ -25,26 +32,18 @@ export async function POST(req) {
             items.answer,
           ]
         );
-
-        const insertedId = insertResult[0]?.id;
-        const triviaID = 'TRI' + insertedId.toString().padStart(3, '0');
-
-        await query(
-          'UPDATE trivia SET TriviaID = @param0 WHERE id = @param1',
-          [triviaID, insertedId]
-        );
       })
     );
 
     return NextResponse.json({
       success: true,
-      message: "yay",
+      message: "Trivia berhasil disimpan!",
     });
   } catch (e) {
-    console.error(e);
+    console.error("Trivia submit error:", e);
     return NextResponse.json({
       success: false,
-      message: e.message ?? "nay",
+      message: e.message ?? "Trivia gagal dikirim",
     });
   }
 }
