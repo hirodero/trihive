@@ -6,7 +6,7 @@ import { Toaster } from 'react-hot-toast';
 import { usePathname } from 'next/navigation';
 export default function RootLayout({ children }) {
   const router = usePathname();
-  const hideFooterPages = ['/trivia/games']
+  const hideFooterPages = ['/trivia/games/[id]']
   const shouldShowFooter = !hideFooterPages.includes(router);
     return (
         <html className="scrollbar scrollbar-track-lime-700  scrollbar-thumb-lime-400" lang="en">
