@@ -161,7 +161,7 @@ export default function Detail(){
                     </div>
                         <div 
                         ref={button}
-                        onClick={()=>router.push(`/trivia/games?id=${data?.ArticleID}`)}
+                        onClick={()=>router.push(`/trivia/games/${data?.ArticleID}`)}
                         onMouseEnter={handleEnter}
                         onMouseLeave={handleLeave}
                         className="flex justify-center rounded-2xl cursor-pointer w-full h-20">
