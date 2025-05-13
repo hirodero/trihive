@@ -72,6 +72,7 @@ export default function Trivia(){
             if(response.ok){
                 const data = await response.json()
                 setTriviaData(data.trivia)
+                isLoading(true)
             }
         }
         getTrivia()
@@ -178,9 +179,9 @@ export default function Trivia(){
         finished&&rightBar()
     },[finished])
 
-    useEffect(()=>{
-        trivia&&isLoading(true)
-    },[trivia])
+    // useEffect(()=>{
+    //     trivia&&
+    // },[trivia])
     const answers=[
         trivia[currentQuestionIndex]?.TriviaOptionA,
         trivia[currentQuestionIndex]?.TriviaOptionB,
@@ -278,12 +279,17 @@ export default function Trivia(){
     return (
     <div 
     className="flex overflow-hidden flex-1 pt-8 h-screen bg-[url('/assets/space.png')] bg-cover bg-no-repeat bg-center bg-fixed  justify-center items-center transition">
-        {!loading&&(
-            <Loaders/>
-        )}
-        {id && trivia.length!==0?(
-            user.sid?(
-                <>
+        {
+            loading?(
+                (trivia.length===0 && id)?(
+                    <div className="flex flex-col text-white items-center justify-center h-screen lg:space-y-30 md:space-y-80 space-y-15 bg-[url('/assets/space.png')] bg-cover bg-no-repeat bg-center bg-fixed">
+                    <div className="flex flex-col justify-center items-center rounded-2xl font-bold p-4 bg-lime-900">
+                        <img src="https://cdn.fstoppers.com/styles/large/s3/wp-content/uploads/2012/08/toofar.jpg" alt="" />
+                        <h1>Please go back to the right game</h1>
+                    </div>
+                </div>
+                ):(
+            <>
                     <motion.div 
                     animate={
                     finished?
@@ -512,9 +518,9 @@ export default function Trivia(){
                         </div>
                     </div>
                     )
-                }
-                </motion.div>
-                {
+                    }
+                    </motion.div>
+                    {
                     modalActivation&&
                     (
                         <motion.div 
@@ -550,8 +556,8 @@ export default function Trivia(){
                             </div>
                         </motion.div>
                     )   
-                }
-                {
+                    }
+                    {
                     answerSubmission&&(
                         <div className='flex flex-1 z-10 inset-0 fixed justify-center bg-transparent pointer-events-none'>
                             <motion.div 
@@ -591,20 +597,10 @@ export default function Trivia(){
                         </div>
                     )
                 }
-            </>
+            </>)
             ):(
-                <Loaders/>
-            )
-            
-        ):(
-            <div className="flex flex-col text-white items-center justify-center h-screen lg:space-y-30 md:space-y-80 space-y-15 bg-[url('/assets/space.png')] bg-cover bg-no-repeat bg-center bg-fixed">
-                    <div className="flex flex-col justify-center items-center rounded-2xl font-bold p-4 bg-lime-900">
-                        <img src="https://cdn.fstoppers.com/styles/large/s3/wp-content/uploads/2012/08/toofar.jpg" alt="" />
-                        <h1>Please go back to the right game</h1>
-                    </div>
-                </div>
-        )}
-        
+            <Loaders/>)
+        }            
      </div>
     )
 }
