@@ -51,6 +51,7 @@ export default function Trivia(){
         async function getSession(){
             const response = await fetch('/api/auth/me')
             if (response.statusText!=='No Content'){
+                document.body.style.overflow='hidden'
                 const data = await response.json();
                 setUser(data)
             }
