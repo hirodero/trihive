@@ -3,11 +3,8 @@ import { query } from "../../../app/lib/db";
 import { nanoid } from 'nanoid';
 
 function generateTriviaID() {
-  return `TRI-${nanoid(10)}`; 
+  return `TRI-${nanoid(5)}`; 
 }
-
-
-
 export async function POST(req) {
   const { triviadata, externalData } = await req.json();
   console.log(triviadata, externalData)
