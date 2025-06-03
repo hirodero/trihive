@@ -1,25 +1,26 @@
 import { NextResponse } from "next/server";
 import { query } from "../../../app/lib/db";
+import { nanoid } from 'nanoid';
 
-function generateTriviaID(index) {
-  const timestamp = Date.now();
-  return `TRI${timestamp}${index.toString().padStart(2, "0")}`;
+function generateTriviaID() {
+  return `TRI-${nanoid(10)}`; 
 }
+
+
 
 export async function POST(req) {
   const { triviadata, externalData } = await req.json();
-
+  console.log(triviadata, externalData)
   try {
     await Promise.all(
       triviadata.map(async (items, index) => {
-        const triviaID = generateTriviaID(index);
-
+        const triviaID = generateTriviaID();
         await query(
           `INSERT INTO trivia (
             TriviaID, ArticleID, UserID, TriviaQuestion, TriviaOptionA, TriviaOptionB,
             TriviaOptionC, TriviaOptionD, TriviaAnswer
           )
-          VALUES (@param0, @param1, @param2, @param3, @param4, @param5, @param6, @param7, @param8)`,
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
           [
             triviaID,
             externalData.id,

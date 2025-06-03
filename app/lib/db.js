@@ -1,40 +1,30 @@
+// db.js
 import dotenv from 'dotenv';
-import sql from 'mssql';
+import mysql from 'mysql2/promise';
 
 dotenv.config();
 
 const config = {
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    server: process.env.DATABASE_HOST,
-    database: process.env.DATABASE_NAME,
-    port: parseInt(process.env.DATABASE_PORT || '1433'),
-    options: {
-        encrypt: true,
-        trustServerCertificate: false,
-    }
+  host: process.env.DATABASE_HOST,
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE_NAME,
+  port: parseInt(process.env.DATABASE_PORT || '3306'),
 };
 
-let poolPromise;
+let connection = null;
 
-// return result
-
-export async function query(queries, values = []) {
-    try {
-        if (!poolPromise) {
-            const pool = new sql.ConnectionPool(config);
-            poolPromise = pool.connect();
-        }
-        const conn = await poolPromise;
-        const request = conn.request();
-        values.forEach((val, idx) => {
-            request.input(`param${idx}`, val);
-        });
-        const result = await request.query(queries);
-        return result.recordset;
-    } catch (err) {
-        console.error("SQL ERROR:", err);
-        return null;
+export async function query(sql, values = []) {
+  try {
+    if (!connection) {
+      connection = await mysql.createConnection(config);
+      console.log('✅ Connected to MySQL');
     }
-}
 
+    const [rows] = await connection.execute(sql, values);
+    return rows;
+  } catch (err) {
+    console.error('❌ MySQL Error:', err);
+    return null;
+  }
+}

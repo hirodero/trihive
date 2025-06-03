@@ -1,7 +1,9 @@
 'use client'
 import { useState, useEffect } from "react";
 import { BentoGrid, BentoGridItem } from "./bento-grid";
+import { useAdmin } from '../../context/AdminContext'
 export default function TriviaDisplay(){
+    const {isAdmin} = useAdmin()
     const [article,setArticle] = useState({Sosiologi:[],Biologi:[],Geografi:[]})
     useEffect(()=>{
         async function getData(){
@@ -40,11 +42,13 @@ export default function TriviaDisplay(){
                             {article[category]?.map((item, i) => (
                                     <BentoGridItem
                                     key={i}
+                                    identifier={item.ArticleID} 
                                     title={item.ArticleTitle}
                                     description={item.ArticleDescription}
                                     header={item.ArticleImage}
-                                    navigationType={'trivia'}
+                                    navigationType={'Trivia'}
                                     navigation={item.ArticleID}
+                                    enableDelete={isAdmin}
                                     className={"col-span-1 min-h-100 scrollbar-hide overflow-auto"}/>
                                 ))}
                             </BentoGrid>

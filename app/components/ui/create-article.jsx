@@ -49,7 +49,7 @@ export default function CreateArticle(){
   async function uploadGambar(file){
     const fileName = `${Date.now()}-${file.name}`
     try{
-      const {data,error} = await supabase.storage.from('article-image').upload(fileName,file);
+      const {data,error} = await supabase.storage.from('trihive').upload(fileName,file);
       const imagePath=`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${data.fullPath}`;
       if(error){
         toast.error('Masalah di supabase');

@@ -12,8 +12,10 @@ import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {useAdmin} from './context/AdminContext'
 gsap.registerPlugin(ScrollTrigger);
 export default function Home() {
+  const { isAdmin, loading } = useAdmin();
   const container1 = useRef()
   const container2 = useRef()
   const leaderboardTitle = useRef()
@@ -46,6 +48,7 @@ export default function Home() {
       toast.info("Login dulu dong biar bisa explore");
     }
   }
+
 
   async function getFaQ() {
     try {
@@ -146,9 +149,9 @@ export default function Home() {
   const word=[
     [{text: `Hey ${user?.nickname? user?.nickname:'kamu, ayo login dan'} mari bermain!!!`,className:'text-white'}],
     [{text: "Kamu bisa meningkatkan literasi dan bermain trivia hanya di",className:'text-white'}],
-    [{text: "Trihive.", className:'text-green-500'}],
+    [{text: "Trihive.", className:'tex nt-green-500'}],
   ]
-  
+
     
   return (
     <>
@@ -169,6 +172,7 @@ export default function Home() {
                           <TypewriterEffectSmooth key={index} words={item}/>
                       ))
                     }
+                    
                   </div>
                   <small ref={introSubheading} 
                   className="font-mono font-bold text-2xl text-yellow-500">
@@ -208,7 +212,6 @@ export default function Home() {
                 ref={container2}
                 id="Score-board" className="flex flex-row mt-10 mb-20 justify-center  items-center bg-none  border-gray-800 h-100 min-w-full">
                   <div 
-                  // ref={leaderboard}
                   className="transition duration-300 flex flex-col shadow-2xl shadow-green-600 items-center  border-b-black  border-b-8 rounded-full px-40 -mr-3">    
                     <div className="flex shadow-green-800 transition flex-col group mt-10 hover:scale-110 hover:-translate-y-2 hover:translate-x-1 hover:brightness-105 hover:contrast-105 duration-700  shadow-2xl  bg-cover bg-no-repeat bg-center bg-fixed   border-b-emerald-950 rounded-full px-10 border-b-8">
                       <Top3/> 

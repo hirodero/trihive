@@ -26,11 +26,11 @@ export async function POST() {
 
     const { sub: userID, nickname: username, email: userEmail, picture: userPicture } = session.user;
 
-    const rows = await query('SELECT * FROM msuser WHERE UserID = @param0', [userID]);
+    const rows = await query('SELECT * FROM msuser WHERE UserID = ?', [userID]);
 
     if (!rows || rows.length === 0) {
       await query(
-        'INSERT INTO msuser (UserID, Email, Username, UserPicture, UserScore) VALUES (@param0, @param1, @param2, @param3, 0)',
+        'INSERT INTO msuser (UserID, Email, Username, UserPicture, UserScore) VALUES (?, ?, ?, ?, 0)',
         [userID, userEmail, username, userPicture]
       );
     }

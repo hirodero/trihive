@@ -1,7 +1,9 @@
 "use client"
 import { useEffect, useState } from "react";
 import { BentoGrid, BentoGridItem } from './bento-grid'
+import { useAdmin } from '../../context/AdminContext'
 export default function OtherArticle({category}){
+    const {isAdmin} = useAdmin()
     const [loading,setLoader] = useState(true)
     const [article, setArticle] = useState([]);
     useEffect(()=>{
@@ -24,14 +26,16 @@ export default function OtherArticle({category}){
             {article?.map((item, i) => (
             <BentoGridItem
                 key={i}
+                identifier={item.ArticleID} 
                 title={item.ArticleTitle}
-                // creator={item}
                 description={item.ArticleDescription}
-                header={item.ArticleImage}    
+                header={item.ArticleImage}   
                 navigation={item.id}
-                navigationType={'article'}
+                navigationType={'Artikel'}
+                enableDelete={isAdmin}
                 className={"col-span-1 min-h-100 scrollbar-hide overflow-auto"}/>
             ))}
+            
         </BentoGrid>
     )
 }
